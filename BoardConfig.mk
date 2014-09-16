@@ -14,21 +14,23 @@
 # limitations under the License.
 #
 
-# Define BOARD_HAVE_BLUETOOTH_BLUEZ before device/qcom/msm7x27/BoardConfigCommon.mk
 # Bluetooth
-# BOARD_HAVE_BLUETOOTH_BLUEZ := true
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/zte/skate/bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := device/zte/skate/bluetooth/libbt_vndcfg.txt
 
 # Use the non-open-source parts, if they're present
 include device/zte/msm7x27-common/BoardConfigCommon.mk
 include vendor/zte/skate/BoardConfigVendor.mk
 
 # Kernel and target stuff
-# TARGET_RECOVERY_INITRC := device/zte/skate/recovery/recovery.rc
-TARGET_RECOVERY_FSTAB := device/zte/skate/fstab.skate
+ifneq (eng,$(TARGET_BUILD_VARIANT))
 TARGET_KERNEL_CONFIG := skate_jb_defconfig
+else
+TARGET_KERNEL_CONFIG := skate_recovery_defconfig
+MINIGZIP := $(shell which lzma)
+endif
 BOARD_KERNEL_CMDLINE := androidboot.hardware=skate console=null
 TARGET_BOOTLOADER_NAME := skate
 TARGET_OTA_ASSERT_DEVICE := skate
@@ -36,10 +38,6 @@ TARGET_OTA_ASSERT_DEVICE := skate
 # Graphics
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
 TARGET_DOESNT_USE_FENCE_SYNC := true
-TARGET_QCOM_HDMI_OUT := false
-TARGET_QCOM_LEGACY_OMX := true
-BOARD_EGL_NEEDS_LEGACY_FB := true
-TARGET_NO_HW_VSYNC := false
 COMMON_GLOBAL_CFLAGS += -DANCIENT_GL
 COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60
 

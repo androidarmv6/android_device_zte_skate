@@ -22,13 +22,23 @@
 # lines, full and toro, hence its name.
 #
 
-# Inherit from skate device
-$(call inherit-product, device/zte/skate/device.mk)
+$(call inherit-product, device/zte/msm7x27-common/common.mk)
+$(call inherit-product, vendor/zte/skate/skate-vendor.mk)
 
-# Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := zte_skate
-PRODUCT_DEVICE := skate
-PRODUCT_BRAND := ZTE
-PRODUCT_MANUFACTURER := ZTE
-PRODUCT_MODEL := Skate
-PRODUCT_RELEASE_NAME := Skate
+# Proximity sensor calibration
+PRODUCT_PACKAGES += \
+        SkateParts
+
+# Ramdisk
+PRODUCT_COPY_FILES += \
+        $(call find-copy-subdir-files,*,device/zte/skate/ramdisk,root)
+
+# Prebuilt
+PRODUCT_COPY_FILES += \
+        $(call find-copy-subdir-files,*,device/zte/skate/prebuilt/system,system)
+
+# These are the hardware-specific features
+PRODUCT_COPY_FILES += \
+         frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+         frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+         frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml
