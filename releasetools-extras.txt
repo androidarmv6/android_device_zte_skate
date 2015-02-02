@@ -18,6 +18,7 @@ lib/libOpenVG.so
 
 # Extra apps
 app/PrintSpooler.apk
+priv-app/CMUpdater.apk
 
 # Video editor (5MB)
 lib/libvideoeditor_core.so
